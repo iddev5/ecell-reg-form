@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>E-Cell Registration Project</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      :root {
+        --blue: blue;
+        --lightblue: cyan;
+        --background: white;
+      }
+
+      .blue {
+        width: 100%;
+        height: 50%;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        z-index: -1;
+        background-color: var(--blue);
+        color: white;
+      }
+
+      .lightblue {
+        width: 120%;
+        height: 30%;
+        position: absolute;
+        left: -15px;
+        top: 30%;
+        z-index: -1;
+        background-color: var(--lightblue);
+        color: white;
+        transform: rotate(175deg);
+      }
+
+      @keyframes title_show {
+        from {
+          opacity: 0%;
+        }
+        to {
+          opacity: 100%;
+        }
+      }
+
+      .page_title {
+        font-size: 4em;
+        margin-bottom: 100px;
+        animation-name: title_show;
+        animation-duration: 1.5s;
+      }
+
+      #theme {
+        background-color: var(--blue);
+        border: 2px solid black;
+        border-radius: 5px;
+        transform: scale(1.5);
+        padding-top: 4px;
+        margin: 5px;
+        min-height: 30px;
+        min-width: 27px;
+      }
+
+      #submit {
+        border: 2px solid black;
+        border-radius: 5px;
+        background-color: var(--background);
+      }
+
+      #back {
+        box-shadow: 0px 0px;
+        background-color: white;
+        border: none;
+        padding: 0px;
+        transform: scale(1.5);
+      }
+
+      .content {
+        display: flex;
+        flex-direction: column;
+        height: 800px;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .field {
+        box-sizing: border-box;
+        background-color: white;
+        border: 2px solid gray;
+        border-radius: 5px;
+        width: 80%;
+        height: 3em;
+      }
+
+      .field:focus {
+        background-color: lightgray;
+        border: 2px solid black; 
+      }
+
+      @keyframes form_show {
+        from {
+          opacity: 0%;
+        }
+        to {
+          opacity: 100%;
+          transform: translateY(10px);
+        }
+      }
+
+      .form
+      {
+        background-color: white;
+        border: 2px solid black;
+        border-radius: 15px;
+        width: 35%;
+        height: 50%;
+        padding: 10px;
+        border: 2px solid black;
+        box-shadow: 0px 5px var(--blue);
+        animation-name: form_show;
+        animation-duration: 1.5s;
+        animation-fill-mode: forwards;
+      }
+
+      
+
+      @media only screen and (max-width: 600px) {
+        .page_title {
+          font-size: 3em;
+          text-align: center;
+          margin-bottom: 50px;
+        }
+
+        .form,
+        .form-below {
+          width: 87%;
+        }
+      }
+    </style>
+
+    <script lang="js">
+      let theme = "light"
+
+      function id(name) {
+        return document.getElementById(name)
+      }
+
+      function submitUsername() {
+        id("form1").hidden = true
+        id("form2").hidden = false
+        id("back").hidden = false
+      }
+
+      function submitPassword() {
+        id("form2").hidden = true
+        id("form3").hidden = false
+      }
+
+      function submitEmail() {
+
+      }
+
+      function goBack() {
+        const form1 = id("form1")
+        const form2 = id("form2")
+        const form3 = id("form3")
+        if (!form2.hidden) {
+          form1.hidden = false
+          form2.hidden = true
+          id("back").hidden = true
+        } else if (!form3.hidden) {
+          form2.hidden = false
+          form3.hidden = true
+        }
+      }
+
+      function switchTheme() {
+        const root = document.querySelector(":root")
+
+        // TODO: edit colors
+        if (theme === "light") {
+          theme = "dark"
+          id("theme-icon").name = "moon"
+        }
+        else {
+          theme = "light"
+          id("theme-icon").name = "sunny"
+        }
+
+      }
+    </script>
+  </head>
+  <body>
+    <div class="blue"></div>
+    <div class="lightblue"></div>
+    <span>
+      <button id="theme" onclick="switchTheme()">
+        <ion-icon id="theme-icon" name="sunny"></ion-icon>
+      </button>
+    </span>
+    <div class="content">
+      <h1 class="page_title">Registration Form</h1>
+        <div class="form">
+          <button id="back" onclick="goBack()" hidden>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+          </button>
+          <form id="form1" action="javascript:submitUsername()">
+            <label for="username">Username: </label>
+            <input
+              type="text"
+              id="username"
+              class="field"
+              name="username"
+              placeholder="Enter username..."
+            />
+            <br />
+            <input type="submit" id="submit" value="Next" />
+          </form>
+
+          <form id="form2" action="javascript:submitPassword()" hidden>
+            <label for="password">Password: </label>
+            <input
+              type="password"
+              id="password"
+              class="field"
+              name="password"
+              placeholder="Your extremely strong password here"
+            />
+            <br />
+
+            <label for="password">Confirm Password: </label>
+            <input
+              type="password"
+              id="confirm"
+              class="field"
+              name="confirm"
+              placeholder="Don't copy the above"
+            />
+            <br />
+
+            <input type="submit" id="submit" value="Next" />
+          </form>
+
+          <form id="form3" action="javascript:submitEmail()" hidden>
+            <label for="email">Email: </label>
+            <input
+              type="email"
+              id="email"
+              class="field"
+              name="email"
+              placeholder="ceo@ecell.com"
+            />
+            <br />
+
+            <input type="submit" id="submit" value="Finish" />
+          </form>
+      </div>
+    </div>
+
+    <!-- IonIcons -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+  </body>
+</html>
