@@ -7,9 +7,26 @@
 
     <style>
       :root {
-        --blue: blue;
-        --lightblue: cyan;
-        --background: white;
+        --blue: #1022c7;
+        --lightblue: #8280f8;
+        --black: #000d26;
+        --background: #bfbafe;
+        --form-color: #ebeafe;
+        font-family: "Kanit", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        --text-color: #000d26;
+      }
+
+      [data-theme="dark"] {
+        --blue: #000d26;
+        --lightblue: #1022c7;
+        --background: #000d26;
+        --black: #1022c7;
+        color: #ebeafe;
+        --text-color: #ebeafe;
+        --form-color: #000d26;
+        background-color: #8280f8;
       }
 
       .blue {
@@ -53,7 +70,8 @@
 
       #theme {
         background-color: var(--blue);
-        border: 2px solid black;
+        color: var(--text-color);
+        border: 2px solid var(--black);
         border-radius: 5px;
         transform: scale(1.5);
         padding-top: 4px;
@@ -63,8 +81,9 @@
       }
 
       #submit {
-        border: 2px solid black;
+        border: 2px solid var(--black);
         border-radius: 5px;
+        color: var(--text-color);
         background-color: var(--background);
 
         position: absolute;
@@ -72,15 +91,32 @@
         right: 2%;
       }
 
+      .icon {
+        border: 2px solid black;
+        border-radius: 5px;
+        transform: translate(10px, 5px) scale(1.5);
+        min-height: 20px;
+        min-width: 20px;
+      }
+
+      #pwcheck {
+        border: none;
+      }
+
       #back {
         position: absolute;
         top: 4%;
         left: 2%;
         box-shadow: 0px 0px;
-        background-color: white;
+        background-color: var(--form-color);
+        color: var(--text-color);
         border: none;
         padding: 0px;
         transform: scale(1.5);
+      }
+
+      #suggestion {
+        color: var(--lightblue);
       }
 
       .content {
@@ -100,6 +136,12 @@
         border-radius: 5px;
         width: 100%;
         height: 3em;
+      }
+
+      #password,
+      #confirm {
+        display: inline;
+        width: 90%;
       }
 
       .field:focus {
@@ -122,13 +164,13 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: white;
+        background-color: var(--form-color);
         border: 2px solid black;
         border-radius: 15px;
-        width: 35%;
+        width: 28%;
         height: 50%;
         padding: 10px;
-        border: 2px solid black;
+        border: 2px solid var(--black);
         box-shadow: 0px 5px var(--blue);
         animation-name: form_show;
         animation-duration: 1.5s;
@@ -148,6 +190,22 @@
         transform: translateX(-50%);
       }
 
+      #tooltip {
+        postion: absolute;
+        /*visibility: hidden;*/
+        background-color: black;
+        color: white;
+        border-radius: 10px;
+        padding: 10px;
+        margin-top: 10px;
+        top: 45px;
+        text-align: center;
+        word-wrap: none;
+        width: 240px;
+        position: absolute;
+        z-index: 1;
+      }
+
       @media only screen and (max-width: 600px) {
         .page_title {
           font-size: 3em;
@@ -161,73 +219,31 @@
       }
     </style>
 
-    <script lang="js">
-      let theme = "light"
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit&display=swap"
+      rel="stylesheet"
+    />
 
-      function id(name) {
-        return document.getElementById(name)
-      }
-
-      function submitUsername() {
-        id("form1").hidden = true
-        id("form2").hidden = false
-        id("back").hidden = false
-      }
-
-      function submitPassword() {
-        id("form2").hidden = true
-        id("form3").hidden = false
-      }
-
-      function submitEmail() {
-
-      }
-
-      function goBack() {
-        const form1 = id("form1")
-        const form2 = id("form2")
-        const form3 = id("form3")
-        if (!form2.hidden) {
-          form1.hidden = false
-          form2.hidden = true
-          id("back").hidden = true
-        } else if (!form3.hidden) {
-          form2.hidden = false
-          form3.hidden = true
-        }
-      }
-
-      function switchTheme() {
-        const root = document.querySelector(":root")
-
-        // TODO: edit colors
-        if (theme === "light") {
-          theme = "dark"
-          id("theme-icon").name = "moon"
-        }
-        else {
-          theme = "light"
-          id("theme-icon").name = "sunny"
-        }
-
-      }
-    </script>
+    <script type="module" src="/main.js"></script>
   </head>
   <body>
     <div class="blue"></div>
     <div class="lightblue"></div>
     <span>
-      <button id="theme" onclick="switchTheme()">
+      <button id="theme">
         <ion-icon id="theme-icon" name="sunny"></ion-icon>
       </button>
     </span>
     <div class="content">
       <h1 class="page_title">Registration Form</h1>
       <div class="form">
-        <button id="back" onclick="goBack()" hidden>
+        <button id="back" hidden>
           <ion-icon name="arrow-back-outline"></ion-icon>
         </button>
-        <form id="form1" action="javascript:submitUsername()">
+        <span hidden id="tooltip">Username is required</span>
+        <form id="form1" action="">
           <h2>Hello there!</h2>
           <br />
           <label for="username">Username: </label>
@@ -238,19 +254,21 @@
             name="username"
             placeholder="Enter username..."
           />
+          <small>Try: <a id="suggestion"></a></small>
           <br />
           <input type="submit" id="submit" value="Next" />
         </form>
 
-        <form id="form2" action="javascript:submitPassword()" hidden>
+        <form id="form2" hidden>
           <label for="password">Password: </label>
           <input
             type="password"
             id="password"
             class="field"
             name="password"
-            placeholder="Your extremely strong password here"
+            placeholder="Your extremely strong password"
           />
+          <ion-icon id="showpw" class="icon" name="eye"></ion-icon>
           <br />
 
           <label for="password">Confirm Password: </label>
@@ -259,14 +277,19 @@
             id="confirm"
             class="field"
             name="confirm"
-            placeholder="Don't copy the above"
+            placeholder="Re-enter password"
           />
+          <ion-icon id="pwcheck" class="icon" name="close"></ion-icon>
           <br />
 
           <input type="submit" id="submit" value="Next" />
         </form>
 
-        <form id="form3" action="javascript:submitEmail()" hidden>
+        <form
+          id="form3"
+          action="https://github.com/iddev5/ecell-reg-form"
+          hidden
+        >
           <label for="email">Email: </label>
           <input
             type="email"
