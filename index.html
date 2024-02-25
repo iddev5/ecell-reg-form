@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>E-Cell Registration Project</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      :root {
+        --blue: #1022c7;
+        --lightblue: #8280f8;
+        --black: #000d26;
+        --background: #bfbafe;
+        --form-color: #ebeafe;
+        font-family: "Kanit", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        --text-color: #000d26;
+      }
+
+      [data-theme="dark"] {
+        --blue: #000d26;
+        --lightblue: #1022c7;
+        --background: #000d26;
+        --black: #1022c7;
+        color: #ebeafe;
+        --text-color: #ebeafe;
+        --form-color: #000d26;
+        background-color: #8280f8;
+      }
+
+      .blue {
+        width: 100%;
+        height: 50%;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        z-index: -1;
+        background-color: var(--blue);
+        color: white;
+      }
+
+      .lightblue {
+        width: 120%;
+        height: 30%;
+        position: absolute;
+        left: -15px;
+        top: 30%;
+        z-index: -1;
+        background-color: var(--lightblue);
+        color: white;
+        transform: rotate(175deg);
+      }
+
+      @keyframes title_show {
+        from {
+          opacity: 0%;
+        }
+        to {
+          opacity: 100%;
+        }
+      }
+
+      .page_title {
+        font-size: 4em;
+        margin-bottom: 100px;
+        animation-name: title_show;
+        animation-duration: 1.5s;
+      }
+
+      #theme {
+        background-color: var(--blue);
+        color: var(--text-color);
+        border: 2px solid var(--black);
+        border-radius: 5px;
+        transform: scale(1.5);
+        padding-top: 4px;
+        margin: 5px;
+        min-height: 30px;
+        min-width: 27px;
+      }
+
+      #submit {
+        border: 2px solid var(--black);
+        border-radius: 5px;
+        color: var(--text-color);
+        background-color: var(--background);
+
+        position: absolute;
+        bottom: 4%;
+        right: 2%;
+      }
+
+      .icon {
+        border: 2px solid black;
+        border-radius: 5px;
+        transform: translate(10px, 5px) scale(1.5);
+        min-height: 20px;
+        min-width: 20px;
+      }
+
+      #pwcheck {
+        border: none;
+      }
+
+      #back {
+        position: absolute;
+        top: 4%;
+        left: 2%;
+        box-shadow: 0px 0px;
+        background-color: var(--form-color);
+        color: var(--text-color);
+        border: none;
+        padding: 0px;
+        transform: scale(1.5);
+      }
+
+      #suggestion {
+        color: var(--lightblue);
+      }
+
+      .content {
+        display: flex;
+        flex-direction: column;
+        height: 800px;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .field {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        background-color: white;
+        border: 2px solid gray;
+        border-radius: 5px;
+        width: 100%;
+        height: 3em;
+      }
+
+      #password,
+      #confirm {
+        display: inline;
+        width: 90%;
+      }
+
+      .field:focus {
+        background-color: lightgray;
+        border: 2px solid black;
+      }
+
+      @keyframes form_show {
+        from {
+          opacity: 0%;
+        }
+        to {
+          opacity: 100%;
+          transform: translateY(10px);
+        }
+      }
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--form-color);
+        border: 2px solid black;
+        border-radius: 15px;
+        width: 28%;
+        height: 50%;
+        padding: 10px;
+        border: 2px solid var(--black);
+        box-shadow: 0px 5px var(--blue);
+        animation-name: form_show;
+        animation-duration: 1.5s;
+        animation-fill-mode: forwards;
+      }
+
+      #form1,
+      #form2,
+      #form3 {
+        width: 90%;
+      }
+
+      #form1 h2 {
+        position: relative;
+        display: inline-block;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      #tooltip {
+        postion: absolute;
+        /*visibility: hidden;*/
+        background-color: black;
+        color: white;
+        border-radius: 10px;
+        padding: 10px;
+        margin-top: 10px;
+        top: 45px;
+        text-align: center;
+        word-wrap: none;
+        width: 240px;
+        position: absolute;
+        z-index: 1;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .page_title {
+          font-size: 3em;
+          text-align: center;
+          margin-bottom: 50px;
+        }
+
+        .form {
+          width: 87%;
+        }
+      }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="module" crossorigin src="/assets/index-C8TiQUkL.js"></script>
+  </head>
+  <body>
+    <div class="blue"></div>
+    <div class="lightblue"></div>
+    <span>
+      <button id="theme">
+        <ion-icon id="theme-icon" name="sunny"></ion-icon>
+      </button>
+    </span>
+    <div class="content">
+      <h1 class="page_title">Registration Form</h1>
+      <div class="form">
+        <button id="back" hidden>
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </button>
+        <span hidden id="tooltip">Username is required</span>
+        <form id="form1" action="">
+          <h2>Hello there!</h2>
+          <br />
+          <label for="username">Username: </label>
+          <input
+            type="text"
+            id="username"
+            class="field"
+            name="username"
+            placeholder="Enter username..."
+          />
+          <small>Try: <a id="suggestion"></a></small>
+          <br />
+          <input type="submit" id="submit" value="Next" />
+        </form>
+
+        <form id="form2" hidden>
+          <label for="password">Password: </label>
+          <input
+            type="password"
+            id="password"
+            class="field"
+            name="password"
+            placeholder="Your extremely strong password"
+          />
+          <ion-icon id="showpw" class="icon" name="eye"></ion-icon>
+          <br />
+
+          <label for="password">Confirm Password: </label>
+          <input
+            type="password"
+            id="confirm"
+            class="field"
+            name="confirm"
+            placeholder="Re-enter password"
+          />
+          <ion-icon id="pwcheck" class="icon" name="close"></ion-icon>
+          <br />
+
+          <input type="submit" id="submit" value="Next" />
+        </form>
+
+        <form
+          id="form3"
+          action="https://github.com/iddev5/ecell-reg-form"
+          hidden
+        >
+          <label for="email">Email: </label>
+          <input
+            type="email"
+            id="email"
+            class="field"
+            name="email"
+            placeholder="ceo@ecell.com"
+          />
+          <br />
+
+          <input type="submit" id="submit" value="Finish" />
+        </form>
+      </div>
+    </div>
+
+    <!-- IonIcons -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+  </body>
+</html>
